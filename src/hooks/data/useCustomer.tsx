@@ -18,6 +18,9 @@ export default function useCustomerData(
                 documentDate,
                 jwtToken,
             );
+
+            console.log('Customers by salesperson: ', res.results);
+
             return res.results;
         },
     });
@@ -46,6 +49,8 @@ export default function useCustomerData(
                     ),
                 ),
             ];
+
+            console.log('Paying customers: ', filtered);
 
             return filtered;
         },

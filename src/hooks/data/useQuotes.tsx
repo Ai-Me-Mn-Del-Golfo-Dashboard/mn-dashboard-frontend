@@ -15,6 +15,8 @@ export default function useQuotes(salespersonCode: number, documentDate: Date) {
                 jwtToken,
             );
 
+            console.log('Quotes by salesperson: ', res.results);
+
             return res.results;
         },
     });

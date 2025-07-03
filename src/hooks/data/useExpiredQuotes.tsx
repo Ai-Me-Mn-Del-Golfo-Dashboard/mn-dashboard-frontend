@@ -20,6 +20,8 @@ export default function useExpiredQuotes(
                 jwtToken,
             );
 
+            console.log('Past quotes by salesperson: ', res.results);
+
             return res.results;
         },
     });
@@ -40,6 +42,8 @@ export default function useExpiredQuotes(
                 monthRange,
                 jwtToken,
             );
+
+            console.log('Expired quotes: ', res.results);
 
             return res.results;
         },

@@ -66,7 +66,7 @@ const tasks: Task[] = [
 export default function SalespersonDashboard() {
     const { user } = useContext(UserContext);
 
-    const documentDate = new Date('2025-06-14'); // update to test different dates
+    const documentDate = new Date('2025-07-02'); // update to test different dates
 
     const quotesQuery = useQuotes(user.code, documentDate);
     const { pastQuotesQuery, expiredQuotesQuery, expiringTodayQuery } = useExpiredQuotes(
@@ -111,7 +111,8 @@ export default function SalespersonDashboard() {
     if (
         quotesQuery.isLoading ||
         pastQuotesQuery.isLoading ||
-        expiredQuotesQuery.isLoading
+        expiredQuotesQuery.isLoading ||
+        expiringTodayQuery.isLoading
     )
         return <LoadingScreen text="Cargando cotizaciones..." />;
     else if (customersQuery.isLoading || payingCustomersQuery.isLoading)
@@ -133,13 +134,15 @@ export default function SalespersonDashboard() {
                     }
                     detailsLink="/quotations"
                     detailsLabel="Ver más detalles"
-                    trend={ { value: 5, isPositive: true } }
+                    // trend={ { value: 5, isPositive: true } }
                 />
 
                 { /* Cotizaciones Vencidas */ }
                 <MetricCard
                     title="Cotizaciones Vencidas"
-                    value={ expiredQuotesQuery.data.length }
+                    value={ expiredQuotesQuery.data.filter(
+                        expiredQuote => !expiringTodayQuery.data.includes(expiredQuote['No_'])
+                    ).length }
                     secondValue={ expiringTodayQuery.data.length }
                     target="TBD"
                     description="Valor total: $TBD"
@@ -147,8 +150,8 @@ export default function SalespersonDashboard() {
                     footer={ <div>Aumentó TBD en la última semana</div> }
                     detailsLink="/quotations"
                     detailsLabel="Ver análisis detallado"
-                    trend={ { value: 25, isPositive: false } }
-                    secondTrend={ { value: 1, isPositive: true } }
+                    // trend={ { value: 25, isPositive: false } }
+                    // secondTrend={ { value: 1, isPositive: true } }
                 />
 
                 { /* Clientes sin Cotización - UPDATED */ }
@@ -193,29 +196,29 @@ export default function SalespersonDashboard() {
                     footer={ (
                         <div className="flex flex-col gap-4">
                             <div className="w-full mt-2">
-                                <Progress value={ 64 } className="h-2 w-full" />
+                                <Progress value={ 0 } className="h-2 w-full" />
                             </div>
                             
-                            Progreso: 64% completado (
+                            Progreso: 0% completado (
                             { payingCustomersQuery.data.length }
-                            /50)
+                            /TBD)
                         </div>
                     ) }
                     detailsLink="/clients"
                     detailsLabel="Ver análisis detallado"
-                    trend={ { value: 10, isPositive: true } }
+                    // trend={ { value: 10, isPositive: true } }
                 />
             </div>
 
             { /* Tasks List */ }
-            <div className="mt-10 border rounded-lg p-6">
+            { /* <div className="mt-10 border rounded-lg p-6">
                 <TasksList
                     tasks={ pendingTasks }
                     onComplete={ handleCompleteTask }
                     onDelete={ handleDeleteTask }
                     limit={ 3 }
                 />
-            </div>
+            </div> */ }
         </DashboardLayout>
     );
 }

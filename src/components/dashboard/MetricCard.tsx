@@ -183,7 +183,7 @@ function MetricCard({
                 ) }
             </CardContent>
 
-            { detailsLink && (
+            { /* { detailsLink && (
                 <CardFooter className="pt-0 pb-4">
                     <Button
                         variant="link"
@@ -196,7 +196,7 @@ function MetricCard({
                         </Link>
                     </Button>
                 </CardFooter>
-            ) }
+            ) } */ }
         </Card>
     );
 }

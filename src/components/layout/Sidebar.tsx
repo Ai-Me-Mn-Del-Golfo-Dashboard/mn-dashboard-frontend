@@ -41,41 +41,41 @@ const navItems: NavItem[] = [
         icon: Home,
         href: '/',
     },
-    {
-        label: 'Cotizaciones',
-        icon: FileText,
-        href: '/quotations',
-    },
-    {
-        label: 'Clientes',
-        icon: Users,
-        href: '/clients',
-    },
-    {
-        label: 'Clientes Nuevos',
-        icon: UserPlus,
-        href: '/new-clients',
-    },
-    {
-        label: 'Sin Cotización',
-        icon: FileMinus,
-        href: '/clients-without-quote',
-    },
-    {
-        label: 'Ventas Proactivas',
-        icon: TrendingUp,
-        href: '/proactive-sales',
-    },
-    {
-        label: 'Ventas (VSP)',
-        icon: BarChart2,
-        href: '/sales-orders',
-    },
-    {
-        label: 'Tareas',
-        icon: ListTodo,
-        href: '/tasks',
-    },
+    // {
+    //     label: 'Cotizaciones',
+    //     icon: FileText,
+    //     href: '/quotations',
+    // },
+    // {
+    //     label: 'Clientes',
+    //     icon: Users,
+    //     href: '/clients',
+    // },
+    // {
+    //     label: 'Clientes Nuevos',
+    //     icon: UserPlus,
+    //     href: '/new-clients',
+    // },
+    // {
+    //     label: 'Sin Cotización',
+    //     icon: FileMinus,
+    //     href: '/clients-without-quote',
+    // },
+    // {
+    //     label: 'Ventas Proactivas',
+    //     icon: TrendingUp,
+    //     href: '/proactive-sales',
+    // },
+    // {
+    //     label: 'Ventas (VSP)',
+    //     icon: BarChart2,
+    //     href: '/sales-orders',
+    // },
+    // {
+    //     label: 'Tareas',
+    //     icon: ListTodo,
+    //     href: '/tasks',
+    // },
 ];
 
 function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {

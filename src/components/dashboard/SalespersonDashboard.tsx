@@ -66,17 +66,15 @@ const tasks: Task[] = [
 export default function SalespersonDashboard() {
     const { user } = useContext(UserContext);
 
-    // if(!user)
-    //     return <LoadingScreen text="Cargando usario..." />
-
     const documentDate = new Date('2025-06-14'); // update to test different dates
 
     const quotesQuery = useQuotes(user.code, documentDate);
-    const { pastQuotesQuery, expiredQuotesQuery } = useExpiredQuotes(
+    const { pastQuotesQuery, expiredQuotesQuery, expiringTodayQuery } = useExpiredQuotes(
         user.code,
         documentDate,
         1,
     );
+
     const { customersQuery, payingCustomersQuery } = useCustomerData(
         user.code,
         documentDate,
@@ -126,8 +124,8 @@ export default function SalespersonDashboard() {
                 <MetricCard
                     title="Meta Diaria de Cotizaciones"
                     value={ `${quotesQuery.data.length} / ${salespersonQuoteGoal}` }
-                    target="20 cotizaciones"
-                    description="Objetivo monetario: $35,000"
+                    target="TBD cotizaciones"
+                    description="Objetivo monetario: $TBD"
                     icon={ <Target className="h-6 w-6 text-primary" /> }
                     chart={ <CircularProgress value={ quotesToPercent() } /> }
                     footer={
@@ -142,13 +140,15 @@ export default function SalespersonDashboard() {
                 <MetricCard
                     title="Cotizaciones Vencidas"
                     value={ expiredQuotesQuery.data.length }
-                    target="0"
-                    description="Valor total: $120,000"
+                    secondValue={ expiringTodayQuery.data.length }
+                    target="TBD"
+                    description="Valor total: $TBD"
                     icon={ <FileText className="h-6 w-6 text-danger" /> }
-                    footer={ <div>Aumentó 2 en la última semana</div> }
+                    footer={ <div>Aumentó TBD en la última semana</div> }
                     detailsLink="/quotations"
                     detailsLabel="Ver análisis detallado"
                     trend={ { value: 25, isPositive: false } }
+                    secondTrend={ { value: 1, isPositive: true } }
                 />
 
                 { /* Clientes sin Cotización - UPDATED */ }
@@ -187,16 +187,15 @@ export default function SalespersonDashboard() {
                 <MetricCard
                     title="Clientes Nuevos"
                     value={ payingCustomersQuery.data.length }
-                    target="50"
+                    target="TBD"
                     description="Meta mensual"
                     icon={ <UserPlus className="h-6 w-6 text-success" /> }
-                    chart={ (
-                        <div className="w-full mt-2">
-                            <Progress value={ 64 } className="h-2 w-full" />
-                        </div>
-                    ) }
                     footer={ (
-                        <div>
+                        <div className="flex flex-col gap-4">
+                            <div className="w-full mt-2">
+                                <Progress value={ 64 } className="h-2 w-full" />
+                            </div>
+                            
                             Progreso: 64% completado (
                             { payingCustomersQuery.data.length }
                             /50)

@@ -20,8 +20,6 @@ export default function useExpiredQuotes(
                 jwtToken,
             );
 
-            console.log(res.results, 'pastQuotesQuery results');
-
             return res.results;
         },
     });
@@ -43,15 +41,26 @@ export default function useExpiredQuotes(
                 jwtToken,
             );
 
-            console.log(res.results, 'expiredQuotesQuery results');
-
             return res.results;
         },
         enabled: !!pastQuotesQuery.data,
     });
 
+    const expiringTodayQuery = useQuery({
+        queryKey: ['expiringQuotesToday', salespersonCode, documentDate],
+        queryFn: async () => {
+            return expiredQuotesQuery.data?.filter(
+                (quote) =>
+                    new Date(quote['Next Appointment Date']).toDateString() ===
+                    documentDate.toDateString()
+            );
+        },
+        enabled: !!expiredQuotesQuery.data
+    });
+
     return {
         pastQuotesQuery,
         expiredQuotesQuery,
+        expiringTodayQuery
     };
 }

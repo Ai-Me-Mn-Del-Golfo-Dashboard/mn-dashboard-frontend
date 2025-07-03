@@ -15,6 +15,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useTheme } from '@/components/theme/ThemeProvider';
 
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 interface MetricCardProps {
     title: string;
@@ -32,6 +33,8 @@ interface MetricCardProps {
         value: number;
         isPositive: boolean;
     };
+    secondValue?: ReactNode;
+    secondTrend?: { value: number; isPositive: boolean };
 }
 
 function MetricCard({
@@ -47,8 +50,43 @@ function MetricCard({
     loading = false,
     className,
     trend,
+    secondValue,
+    secondTrend,
 }: MetricCardProps) {
     const { theme } = useTheme();
+
+    function renderMetric(
+        displayValue: ReactNode,
+        displayTrend?: { value: number; isPositive: boolean },
+        alignCenter = false,
+    ) {
+        return (
+            <div className={ cn('space-y-1', alignCenter && 'text-center') }>
+                <div
+                    className={ cn(
+                        'text-3xl font-bold tracking-tight dark:text-white',
+                        alignCenter && 'text-4xl',
+                    ) }
+                >
+                    { displayValue }
+                </div>
+                { displayTrend && (
+                    <div
+                        className={ cn(
+                            'text-xs flex items-center',
+                            displayTrend.isPositive
+                                ? 'text-success dark:text-green-400'
+                                : 'text-danger dark:text-red-400',
+                            alignCenter && 'justify-center',
+                        ) }
+                    >
+                        { displayTrend.isPositive ? '↑' : '↓' }{ ' ' }
+                        { displayTrend.value }% vs mes anterior
+                    </div>
+                ) }
+            </div>
+        );
+    }
 
     if (loading) {
         return (
@@ -56,10 +94,13 @@ function MetricCard({
                 <CardHeader className="pb-2">
                     <CardTitle className="flex items-center justify-between">
                         <Skeleton className="h-6 w-48" />
+
                         { icon && <Skeleton className="h-8 w-8 rounded-full" /> }
                     </CardTitle>
+
                     { description && <Skeleton className="h-4 w-32 mt-1" /> }
                 </CardHeader>
+
                 <CardContent>
                     <Skeleton className="h-16 w-full mb-6" />
                 </CardContent>
@@ -82,11 +123,13 @@ function MetricCard({
                     <span>{ title }</span>
                     { icon }
                 </CardTitle>
+
                 { description && (
                     <CardDescription className="dark:text-gray-300">
                         { description }
                     </CardDescription>
                 ) }
+
                 { target !== undefined && (
                     <div
                         className={ cn(
@@ -100,39 +143,32 @@ function MetricCard({
                     </div>
                 ) }
             </CardHeader>
+
             <CardContent>
                 <div
                     className={ cn(
-                        'flex items-center',
-                        chart ? 'space-x-4' : 'justify-center py-4',
+                        'flex w-full items-center py-4 px-8',
+                        chart ? 'justify-between' : 'justify-center',
                     ) }
                 >
-                    <div className={ cn('space-y-1', !chart && 'text-center') }>
-                        <div
-                            className={ cn(
-                                'text-3xl font-bold tracking-tight dark:text-white',
-                                !chart && 'text-4xl',
-                            ) }
-                        >
-                            { value }
-                        </div>
-                        { trend && (
-                            <div
-                                className={ cn(
-                                    'text-xs flex items-center',
-                                    trend.isPositive
-                                        ? 'text-success dark:text-green-400'
-                                        : 'text-danger dark:text-red-400',
-                                    !chart && 'justify-center',
-                                ) }
-                            >
-                                { trend.isPositive ? '↑' : '↓' } { trend.value }% vs
-                                mes anterior
+                    { secondValue !== undefined ? (
+                        <div className="flex flex-col w-full space-y-3">
+                            <div className="flex justify-around items-start">
+                                { renderMetric(value, trend, true) }
+                                { renderMetric(secondValue, secondTrend, true) }
                             </div>
-                        ) }
-                    </div>
-                    { chart && <div className="flex-1">{ chart }</div> }
+
+                            { chart && <div className="mt-4">{ chart }</div> }
+                        </div>
+                    ) : (
+                        <>
+                            { renderMetric(value, trend, !chart) }
+
+                            { chart && <div>{ chart }</div> }
+                        </>
+                    ) }
                 </div>
+
                 { footer && (
                     <div
                         className={ cn(
@@ -146,6 +182,7 @@ function MetricCard({
                     </div>
                 ) }
             </CardContent>
+
             { detailsLink && (
                 <CardFooter className="pt-0 pb-4">
                     <Button
@@ -153,10 +190,10 @@ function MetricCard({
                         className="px-0 h-auto text-primary dark:text-blue-400 flex items-center"
                         asChild
                     >
-                        <a href={ detailsLink }>
+                        <Link to={ detailsLink }>
                             { detailsLabel }{ ' ' }
                             <ArrowRight className="ml-1 h-4 w-4" />
-                        </a>
+                        </Link>
                     </Button>
                 </CardFooter>
             ) }

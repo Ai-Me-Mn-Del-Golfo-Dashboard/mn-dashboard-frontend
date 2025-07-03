@@ -25,7 +25,7 @@ export default function AdminDashboard() {
     const { user } = useContext(UserContext);
 
     const [salespersonCode, setSalespersonCode] = useState('');
-    const [startDate, setStartDate] = useState('');
+    const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState('');
     const [location, setLocation] = useState('');
 
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
                 <h2 className="text-xl font-semibold">Filters</h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div>
+                    {/* <div>
                         <label className="text-sm font-medium text-gray-300">
                             Salesperson Code
                         </label>
@@ -72,11 +72,11 @@ export default function AdminDashboard() {
                             onChange={ (e) => setSalespersonCode(e.target.value) }
                             className="mt-1"
                         />
-                    </div>
+                    </div> */}
 
                     <div>
                         <label className="text-sm font-medium text-gray-300">
-                            Start Date
+                            Date
                         </label>
                         <div className="relative mt-1">
                             <Input
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
                         </div>
                     </div>
 
-                    <div>
+                    {/* <div>
                         <label className="text-sm font-medium text-gray-300">
                             End Date
                         </label>
@@ -104,9 +104,9 @@ export default function AdminDashboard() {
                             />
                             <CalendarIcon className="absolute right-3 top-3 h-5 w-5 text-gray-400 pointer-events-none" />
                         </div>
-                    </div>
+                    </div> */}
 
-                    <div>
+                    {/* <div>
                         <label className="text-sm font-medium text-gray-300">
                             Location
                         </label>
@@ -143,7 +143,7 @@ export default function AdminDashboard() {
                                 </SelectContent>
                             </Select>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
                 <div className="flex justify-end space-x-3 pt-2">
